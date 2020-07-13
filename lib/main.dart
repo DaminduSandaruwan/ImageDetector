@@ -1,4 +1,7 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
+import 'package:tflite/tflite.dart';
 
 void main(){
   runApp(MaterialApp(
@@ -16,7 +19,18 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   bool _isloading = true;
-  File
+  File _image;
+  List _output;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _isloading=true;
+    
+    
+    
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,3 +44,10 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+loadModel() async {
+    await Tflite.loadModel(
+      model: "assets/model_unquant.tflite",
+      labels: "assets/labels.txt"
+    );
+  }
