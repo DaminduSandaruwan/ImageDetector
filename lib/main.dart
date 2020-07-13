@@ -14,6 +14,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  bool _isloading = true;
+  File
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
