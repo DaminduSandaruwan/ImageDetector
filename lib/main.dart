@@ -1,6 +1,6 @@
-import 'dart:html';
-
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tflite/tflite.dart';
 
 void main(){
@@ -43,11 +43,21 @@ class _HomePageState extends State<HomePage> {
       
     );
   }
-}
 
-loadModel() async {
+  chooseImage() async{
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    if(image != null) return null;
+    setState(() {
+      _isloading =true;
+      _image = image;
+    });
+  }
+
+  loadModel() async {
     await Tflite.loadModel(
       model: "assets/model_unquant.tflite",
       labels: "assets/labels.txt"
     );
   }
+}
+
