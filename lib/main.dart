@@ -18,7 +18,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  bool _isloading = true;
+  bool _isloading;
   File _image;
   List _output;
 
@@ -27,7 +27,11 @@ class _HomePageState extends State<HomePage> {
     // TODO: implement initState
     super.initState();
     _isloading=true;
-    
+    loadModel().then((value){
+      setState(() {
+        _isloading=false;
+      });
+    });
     
     
   }
@@ -39,6 +43,22 @@ class _HomePageState extends State<HomePage> {
         title: Text("Cat & Dog Detector"),
         centerTitle: true,
         brightness: Brightness.dark,
+      ),
+      body: _isloading ? Container(
+        alignment: Alignment.center,
+        child: CircularProgressIndicator(),
+      ) : Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            _image == null ? Container() : Image.file(_image),
+            SizedBox(height: 20,),
+            _output == null ? Text("") : Text(
+              "${_output[0]["label"]}"              
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
@@ -53,7 +73,7 @@ class _HomePageState extends State<HomePage> {
 
   chooseImage() async{
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    if(image != null) return null;
+    if(image == null) return null;
     setState(() {
       _isloading =true;
       _image = image;
@@ -61,8 +81,8 @@ class _HomePageState extends State<HomePage> {
     runModelOnImage(image);
   }
 
-  runModelOnImage(File image){
-    Tflite.runModelOnImage(
+  runModelOnImage(File image) async{
+    var output = await Tflite.runModelOnImage(
       path: image.path,
       numResults: 2,
       imageMean: 127.5,
@@ -71,7 +91,7 @@ class _HomePageState extends State<HomePage> {
     );
     setState(() {
       _isloading=false;
-      _image=image;
+      _output=output;
     });
   }
 
