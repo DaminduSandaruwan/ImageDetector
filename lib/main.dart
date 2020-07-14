@@ -40,7 +40,14 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         brightness: Brightness.dark,
       ),
-      
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          chooseImage();
+        },
+        child: Icon(
+          Icons.image,
+        ),
+      ),
     );
   }
 
