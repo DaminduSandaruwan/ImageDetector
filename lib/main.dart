@@ -24,7 +24,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _isloading=true;
     loadModel().then((value){
@@ -48,16 +47,27 @@ class _HomePageState extends State<HomePage> {
         alignment: Alignment.center,
         child: CircularProgressIndicator(),
       ) : Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            _image == null ? Container() : Image.file(_image),
-            SizedBox(height: 20,),
-            _output == null ? Text("") : Text(
-              "${_output[0]["label"]}"              
-            ),
-          ],
+        padding: EdgeInsets.only(top:50),
+        child: Center(
+          child: Column(
+            // crossAxisAlignment: CrossAxisAlignment.center,
+            //mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              _image == null ? Container() : Image.file(
+                _image,
+                width: MediaQuery.of(context).size.width-20,
+          
+              ),
+              SizedBox(height: 20,),
+              _output == null ? Text("") : Text(
+                "${_output[0]["label"]}",
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
