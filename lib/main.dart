@@ -51,6 +51,21 @@ class _HomePageState extends State<HomePage> {
       _isloading =true;
       _image = image;
     });
+    runModelOnImage(image);
+  }
+
+  runModelOnImage(File image){
+    Tflite.runModelOnImage(
+      path: image.path,
+      numResults: 2,
+      imageMean: 127.5,
+      imageStd: 127.5,
+      threshold: 0.5,
+    );
+    setState(() {
+      _isloading=false;
+      _image=image;
+    });
   }
 
   loadModel() async {
